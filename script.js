@@ -21,7 +21,7 @@ var spelStatus = SPELEN;
 
 var spelerX = 600; // x-positie van speler
 var spelerY = 600; // y-positie van speler
-var health = 100;  // health van speler
+var health = 200;  // health van speler
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
