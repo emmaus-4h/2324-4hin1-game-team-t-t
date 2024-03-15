@@ -22,6 +22,7 @@ var spelStatus = SPELEN;
 var spelerX = 600; // x-positie van speler
 var spelerY = 600; // y-positie van speler
 var health = 200;  // health van speler
+var snelheid = 4;  // snelheid van speler
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -32,7 +33,18 @@ var health = 200;  // health van speler
  */
 var beweegAlles = function() {
   // speler
-
+   if (keyIsDown(LEFT_ARROW)) {
+    spelerX = spelerX - snelheid;
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    spelerX = spelerX + snelheid;
+  }
+  if (keyIsDown(UP_ARROW)) {
+    spelerY = spelerY - snelheid;
+  }
+  if (keyIsDown(DOWN_ARROW) || keyIsDown(53)) {
+    spelerY = spelerY + snelheid;
+  }
   // vijand
 
   // kogel
@@ -57,7 +69,8 @@ var verwerkBotsing = function() {
  */
 var tekenAlles = function() {
   // achtergrond
-
+  fill("black");
+  rect(0, 0, 1280, 720);
   // vijand
 
   // kogel
@@ -65,7 +78,7 @@ var tekenAlles = function() {
   // speler
   fill("white");
   rect(spelerX - 50, spelerY - 25, 100, 50);
-  fill("black");
+  fill("red");
   ellipse(spelerX, spelerY, 10, 10);
 
   // punten en health
@@ -86,7 +99,7 @@ function setup() {
   createCanvas(1280, 720);
 
   // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('blue');
+  background('black');
 }
 
 /**
