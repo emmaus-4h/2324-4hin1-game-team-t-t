@@ -17,10 +17,16 @@
 /* ********************************************* */
 const SPELEN = 1;
 const GAMEOVER = 2;
+const KEY_w = 87;
+const KEY_a = 65;
+const KEY_s = 83;
+const KEY_d = 68;
 var spelStatus = SPELEN;
 
-var spelerX = 600; // x-positie van speler
-var spelerY = 600; // y-positie van speler
+var spelerX = 600; // x-positie van speler1
+var spelerY = 600; // y-positie van speler1
+var spelerX2 = 800; // x-positie van speler2
+var spelerY2 = 600; // y-positie van speler2
 var health = 200;  // health van speler
 var snelheid = 4;  // snelheid van speler
 
@@ -42,8 +48,20 @@ var beweegAlles = function() {
   if (keyIsDown(UP_ARROW)) {
     spelerY = spelerY - snelheid;
   }
-  if (keyIsDown(DOWN_ARROW) || keyIsDown(53)) {
+  if (keyIsDown(DOWN_ARROW)) {
     spelerY = spelerY + snelheid;
+  }
+  if (keyIsDown(KEY_a)) {
+    spelerX2 = spelerX2 - snelheid;
+  }
+  if (keyIsDown(KEY_d)) {
+    spelerX2 = spelerX2 + snelheid;
+  }
+  if (keyIsDown(KEY_w)) {
+    spelerY2 = spelerY2 - snelheid;
+  }
+  if (keyIsDown(KEY_s)) {
+    spelerY2 = spelerY2 + snelheid;
   }
   // vijand
 
@@ -76,11 +94,27 @@ var tekenAlles = function() {
   // kogel
 
   // speler
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW)) {
   fill("white");
   rect(spelerX - 50, spelerY - 25, 100, 50);
+  }
+  if (keyIsDown(UP_ARROW) || keyIsDown(DOWN_ARROW)) {
+    fill("white");
+    rect(spelerX - 25, spelerY - 50, 50, 100);
+    }
+  if (keyIsDown(KEY_a) || keyIsDown(KEY_d)) {
+    fill("red");
+    rect(spelerX2 - 50, spelerY2 - 25, 100, 50);
+    }
+    if (keyIsDown(KEY_w) || keyIsDown(KEY_s)) {
+      fill("red");
+      rect(spelerX2 - 25, spelerY2 - 50, 50, 100);
+      }
   fill("red");
   ellipse(spelerX, spelerY, 10, 10);
-
+  fill("white");
+  ellipse(spelerX2, spelerY2, 10, 10);
+  
   // punten en health
 
 };
