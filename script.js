@@ -43,30 +43,37 @@ var beweegAlles = function() {
   // speler
    if (keyIsDown(LEFT_ARROW)) {
     spelerX = spelerX - snelheid;
-     
+     spelerRichting = 135;
   }
   if (keyIsDown(RIGHT_ARROW)) {
     spelerX = spelerX + snelheid;
+    spelerRichting = 45;
   }
   if (keyIsDown(UP_ARROW)) {
     spelerY = spelerY - snelheid;
+    spelerRichting = 0;
   }
   if (keyIsDown(DOWN_ARROW)) {
     spelerY = spelerY + snelheid;
+    spelerRichting = 90;
   }
   
   // vijand
   if (keyIsDown(KEY_a)) {
     spelerX2 = spelerX2 - snelheid;
+    speler2Richting = 135;
   }
   if (keyIsDown(KEY_d)) {
     spelerX2 = spelerX2 + snelheid;
+    speler2Richting = 45;
   }
   if (keyIsDown(KEY_w)) {
     spelerY2 = spelerY2 - snelheid;
+    speler2Richting = 0;
   }
   if (keyIsDown(KEY_s)) {
     spelerY2 = spelerY2 + snelheid;
+    speler2Richting = 90;
   }
   // kogel
 };
@@ -93,11 +100,11 @@ var tekenAlles = function() {
   fill("black");
   rect(0, 0, 1280, 720);
   // vijand
-  if (keyIsDown(KEY_a) || keyIsDown(KEY_d)) {
+  if (speler2Richting === 45 || speler2Richting === 135) {
     fill("red");
     rect(spelerX2 - 50, spelerY2 - 25, 100, 50);
     }
-    if (keyIsDown(KEY_w) || keyIsDown(KEY_s)) {
+    if (speler2Richting === 0 || speler2Richting === 90) {
       fill("red");
       rect(spelerX2 - 25, spelerY2 - 50, 50, 100);
       }
@@ -106,11 +113,11 @@ var tekenAlles = function() {
   // kogel
 
   // speler
-  if (keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW)) {
+  if (spelerRichting === 45 || spelerRichting === 135) {
   fill("white");
   rect(spelerX - 50, spelerY - 25, 100, 50);
   }
-  if (keyIsDown(UP_ARROW) || keyIsDown(DOWN_ARROW)) {
+  if (spelerRichting === 0 || spelerRichting === 90) {
     fill("white");
     rect(spelerX - 25, spelerY - 50, 50, 100);
     }
