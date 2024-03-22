@@ -51,6 +51,8 @@ var beweegAlles = function() {
   if (keyIsDown(DOWN_ARROW)) {
     spelerY = spelerY + snelheid;
   }
+  
+  // vijand
   if (keyIsDown(KEY_a)) {
     spelerX2 = spelerX2 - snelheid;
   }
@@ -63,8 +65,6 @@ var beweegAlles = function() {
   if (keyIsDown(KEY_s)) {
     spelerY2 = spelerY2 + snelheid;
   }
-  // vijand
-
   // kogel
 };
 
@@ -90,7 +90,16 @@ var tekenAlles = function() {
   fill("black");
   rect(0, 0, 1280, 720);
   // vijand
-
+  if (keyIsDown(KEY_a) || keyIsDown(KEY_d)) {
+    fill("red");
+    rect(spelerX2 - 50, spelerY2 - 25, 100, 50);
+    }
+    if (keyIsDown(KEY_w) || keyIsDown(KEY_s)) {
+      fill("red");
+      rect(spelerX2 - 25, spelerY2 - 50, 50, 100);
+      }
+  fill("white");
+  ellipse(spelerX2, spelerY2, 10, 10);
   // kogel
 
   // speler
@@ -102,18 +111,10 @@ var tekenAlles = function() {
     fill("white");
     rect(spelerX - 25, spelerY - 50, 50, 100);
     }
-  if (keyIsDown(KEY_a) || keyIsDown(KEY_d)) {
-    fill("red");
-    rect(spelerX2 - 50, spelerY2 - 25, 100, 50);
-    }
-    if (keyIsDown(KEY_w) || keyIsDown(KEY_s)) {
-      fill("red");
-      rect(spelerX2 - 25, spelerY2 - 50, 50, 100);
-      }
+  
   fill("red");
   ellipse(spelerX, spelerY, 10, 10);
-  fill("white");
-  ellipse(spelerX2, spelerY2, 10, 10);
+  
   
   // punten en health
 
