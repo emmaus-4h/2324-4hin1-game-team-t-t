@@ -23,6 +23,8 @@ const KEY_s = 83;
 const KEY_d = 68;
 var spelStatus = SPELEN;
 
+var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+var speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var spelerX = 600; // x-positie van speler1
 var spelerY = 600; // y-positie van speler1
 var spelerX2 = 800; // x-positie van speler2
@@ -41,6 +43,7 @@ var beweegAlles = function() {
   // speler
    if (keyIsDown(LEFT_ARROW)) {
     spelerX = spelerX - snelheid;
+     
   }
   if (keyIsDown(RIGHT_ARROW)) {
     spelerX = spelerX + snelheid;
@@ -71,7 +74,7 @@ var beweegAlles = function() {
 /**
  * Checkt botsingen
  * Verwijdert neergeschoten dingen
- * Updatet globale variabelen punten en health
+ *d Updatet globale variabelen punten en health
  */
 var verwerkBotsing = function() {
   // botsing speler tegen vijand
