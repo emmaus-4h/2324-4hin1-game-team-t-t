@@ -88,7 +88,7 @@ var verwerkBotsing = function() {
   // botsing speler tegen vijand
 if (spelerX - spelerX2 < 50 && spelerX - spelerX2 > -50 ) {
 console.log("botsing");
-  
+  health = health - 200;
 }
   // botsing kogel tegen vijandw
 
@@ -147,7 +147,7 @@ function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
-  // Kleur de achtergrond blauw, zodat je het kunt zien
+  // Kleur de achtergrond zwart, zodat je het kunt zien
   background('black');
 }
 
@@ -165,17 +165,25 @@ function draw() {
       spelStatus = GAMEOVER;
     }
   }
+  if ( keyIsDown(ESCAPE)) {
+    spelStatus = UITLEG;
+  };
   if (spelStatus === GAMEOVER) {
     // teken game-over scherm
   }
   if (spelStatus === UITLEG) {
+    background('black');
     console.log("uitleg");
     textSize(50);
     fill("white");
     text("Welkom bij de game," , 280, 150);
-    text("Druk op enter om verder te gaan!" , 280, 200);
+    text("Druk op de knop om verder te gaan!" , 280, 200);
+    fill("red");
+    rect(450, 300, 400, 200);
+  fill("black");
+    text("PLAY" , 575, 420);
     // teken uitleg scherm
-    if (keyIsDown(ENTER)) {
+    if (mouseIsPressed && mouseY > 200 && mouseY < 400 && mouseX > 450 && mouseX < 950) {
       spelStatus = SPELEN;
     }
   }
