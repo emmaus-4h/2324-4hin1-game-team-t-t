@@ -26,12 +26,12 @@ var spelStatus = UITLEG;
 
 var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-var spelerX = 600; // x-positie van speler1
-var spelerY = 600; // y-positie van speler1
-var spelerX2 = 800; // x-positie van speler2
-var spelerY2 = 600; // y-positie van speler2
-var health = 200;  // health van speler
-var snelheid = 4;  // snelheid van speler
+var spelerX = 0; // x-positie van speler1
+var spelerY = 0; // y-positie van speler1
+var spelerX2 = 0; // x-positie van speler2
+var spelerY2 = 0; // y-positie van speler2
+var health = 0;  // health van speler
+var snelheid = 0;  // snelheid van speler
 
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
@@ -149,6 +149,17 @@ function setup() {
 
   // Kleur de achtergrond zwart, zodat je het kunt zien
   background('black');
+  var inTheGame = function(){
+  
+     spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+     speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+     spelerX = 600; // x-positie van speler1
+     spelerY = 600; // y-positie van speler1
+     spelerX2 = 800; // x-positie van speler2
+     spelerY2 = 600; // y-positie van speler2
+     health = 200;  // health van speler
+     snelheid = 4;  // snelheid van speler
+  }
 }
 
 /**
@@ -169,7 +180,17 @@ function draw() {
     spelStatus = UITLEG;
   };
   if (spelStatus === GAMEOVER) {
+    background('black');
+    console.log("GAME OVER");
+    textSize(50);
+    fill("white");
+    text("GAME OVER" , 280, 150);
+    text("Druk op enter om naar startscherm te gaan" , 280, 200);
     // teken game-over scherm
+    if ( keyIsDown(ENTER)) {
+      spelStatus = UITLEG;
+      
+    };
   }
   if (spelStatus === UITLEG) {
     background('black');
@@ -183,7 +204,7 @@ function draw() {
   fill("black");
     text("PLAY" , 575, 420);
     // teken uitleg scherm
-    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850) {
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850 || keyIsDown(ENTER)) {
       spelStatus = SPELEN;
     }
   }
