@@ -183,7 +183,7 @@ function draw() {
   fill("black");
     text("PLAY" , 575, 420);
     // teken uitleg scherm
-    if (mouseIsPressed && mouseY > 200 && mouseY < 400 && mouseX > 450 && mouseX < 950) {
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850) {
       spelStatus = SPELEN;
     }
   }
