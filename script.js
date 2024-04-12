@@ -17,11 +17,12 @@
 /* ********************************************* */
 const SPELEN = 1;
 const GAMEOVER = 2;
+const UITLEG = 3;
 const KEY_w = 87;
 const KEY_a = 65;
 const KEY_s = 83;
 const KEY_d = 68;
-var spelStatus = SPELEN;
+var spelStatus = UITLEG;
 
 var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
@@ -86,7 +87,7 @@ var beweegAlles = function() {
 var verwerkBotsing = function() {
   // botsing speler tegen vijand
 if (spelerX - spelerX2 < 50 && spelerX - spelerX2 > -50 ) {
-console.log(botsing)
+console.log("botsing");
   
 }
   // botsing kogel tegen vijandw
@@ -166,5 +167,16 @@ function draw() {
   }
   if (spelStatus === GAMEOVER) {
     // teken game-over scherm
+  }
+  if (spelStatus === UITLEG) {
+    console.log("uitleg");
+    textSize(50);
+    fill("white");
+    text("Welkom bij de game," , 280, 150);
+    text("Druk op enter om verder te gaan!" , 280, 200);
+    // teken uitleg scherm
+    if (keyIsDown(ENTER)) {
+      spelStatus = SPELEN;
+    }
   }
 }
