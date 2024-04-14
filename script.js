@@ -18,6 +18,7 @@
 const SPELEN = 1;
 const GAMEOVER = 2;
 const UITLEG = 3;
+const PAUZE = 4;
 const KEY_w = 87;
 const KEY_a = 65;
 const KEY_s = 83;
@@ -36,7 +37,17 @@ var snelheid = 0;  // snelheid van speler
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
+function reset(){
 
+   spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+   speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+   spelerX = 600; // x-positie van speler1
+   spelerY = 600; // y-positie van speler1
+   spelerX2 = 800; // x-positie van speler2
+   spelerY2 = 600; // y-positie van speler2
+   health = 200;  // health van speler
+   snelheid = 4;  // snelheid van speler
+}
 /**
  * Updatet globale variabelen met posities van speler, vijanden en kogels
  */
@@ -149,17 +160,7 @@ function setup() {
 
   // Kleur de achtergrond zwart, zodat je het kunt zien
   background('black');
-  var inTheGame = function(){
-  
-     spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-     speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-     spelerX = 600; // x-positie van speler1
-     spelerY = 600; // y-positie van speler1
-     spelerX2 = 800; // x-positie van speler2
-     spelerY2 = 600; // y-positie van speler2
-     health = 200;  // health van speler
-     snelheid = 4;  // snelheid van speler
-  }
+  reset();
 }
 
 /**
@@ -177,7 +178,7 @@ function draw() {
     }
   }
   if ( keyIsDown(ESCAPE)) {
-    spelStatus = UITLEG;
+    spelStatus = PAUZE;
   };
   if (spelStatus === GAMEOVER) {
     background('black');
@@ -192,6 +193,30 @@ function draw() {
       
     };
   }
+  if (spelStatus === PAUZE) {
+    background('black');
+    console.log("PAUZE");
+    textSize(50);
+    fill("white");
+    text("Dit is het pauze menu." , 280, 150);
+    text("Kies wat u wilt doen;" , 280, 200);
+    fill("red");
+    rect(250, 300, 400, 200);
+    fill("black");
+    text("PLAY" , 375, 420);
+    fill("red");
+    rect(700, 300, 400, 200);
+    fill("black");
+    text("RESET" , 825, 420);
+    // teken pauze scherm
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 250 && mouseX < 650) {
+      spelStatus = SPELEN;
+    } 
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 700 && mouseX < 1100) {
+      spelStatus = SPELEN;
+      reset();
+    }
+  }
   if (spelStatus === UITLEG) {
     background('black');
     console.log("uitleg");
@@ -204,8 +229,9 @@ function draw() {
   fill("black");
     text("PLAY" , 575, 420);
     // teken uitleg scherm
-    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850 || keyIsDown(ENTER)) {
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850) {
       spelStatus = SPELEN;
+      reset();
     }
   }
 }
