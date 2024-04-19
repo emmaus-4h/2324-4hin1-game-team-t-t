@@ -23,7 +23,7 @@ const KEY_w = 87;
 const KEY_a = 65;
 const KEY_s = 83;
 const KEY_d = 68;
-var spelStatus = 1;
+var spelStatus = SPELEN;
 
 var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
@@ -48,7 +48,7 @@ function reset() {
   speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
   spelerX = 600; // x-positie van speler1
   spelerY = 600; // y-positie van speler1
-  spelerX2 = 800; // x-positie van speler2
+  spelerX2 = 1220; // x-positie van speler2
   spelerY2 = 600; // y-positie van speler2
   health = 200;  // health van speler
   snelheid = 4;  // snelheid van speler
@@ -89,14 +89,13 @@ var beweegAlles = function() {
     }
   }
   // vijand
-  while (spelStatus === SPELEN) {
-    spelerX2 = spelerX2 - snelheid;
-    speler2Richting = 0;
-    if (spelerX2 > 1200) {
-      spelerX2 = -100;
-    }
 
-  }
+    spelerX2 = spelerX2 - (snelheid - 2);
+   spelerY2 = 100;
+    
+    
+
+  
   // kogel
 
 }
@@ -107,7 +106,7 @@ var beweegAlles = function() {
  */
 var verwerkBotsing = function() {
   // botsing speler tegen vijand
-  if (spelerX - spelerX2 < 50 && spelerX - spelerX2 > -50) {
+  if (spelerX - spelerX2 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 50 && spelerY - spelerY2 > -50) {
     console.log("botsing");
     health = health - 200;
   }
@@ -169,7 +168,7 @@ function setup() {
   createCanvas(1280, 720);
 
   // Kleur de achtergrond zwart, zodat je het kunt zien
-  background('black');
+  background('red');
   reset();
 }
 
@@ -179,6 +178,7 @@ function setup() {
  * uitgevoerd door de p5 library, nadat de setup functie klaar is
  */
 function draw() {
+  
   if (spelStatus === SPELEN) {
     beweegAlles();
     verwerkBotsing();
@@ -244,4 +244,5 @@ function draw() {
       reset();
     }
   }
+  
 }
