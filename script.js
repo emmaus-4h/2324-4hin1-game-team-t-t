@@ -28,12 +28,16 @@ var spelStatus = SPELEN;
 var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var speler3Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+var speler4Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+var spelerX = 0; // x-positie van speler1
 var spelerX = 0; // x-positie van speler1
 var spelerY = 0; // y-positie van speler1
 var spelerX2 = 0; // x-positie van speler2
 var spelerY2 = 0; // y-positie van speler2
 var spelerX3 = 0; // x-positie van speler3
 var spelerY3 = 0; // y-positie van speler3
+var spelerX4 = 0; // x-positie van speler4
+var spelerY4 = 0; // y-positie van speler4
 var health = 0;  // health van speler
 var snelheid = 0;  // snelheid van speler
 
@@ -50,12 +54,15 @@ function reset() {
   spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
   speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
   speler3Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+  speler4Richting = 0; //  0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
   spelerX = 600; // x-positie van speler1
   spelerY = 600; // y-positie van speler1
   spelerX2 = 1220; // x-positie van speler2
   spelerY2 = 200; // y-positie van speler2
-  spelerX3 = 1200; // x-positie van speler3
-  spelerY3 = 700; // y-positie van speler3
+  spelerX3 = 1800; // x-positie van speler3
+  spelerY3 = 1000; // y-positie van speler3
+  spelerX4 = 2400; // x-positie van speler4
+  spelerY4 = 1800; // y-positie van speler4
   health = 200; // health van speler
   snelheid = 4; // snelheid van speler
 }
@@ -102,7 +109,9 @@ var beweegAlles = function() {
     spelerX3 = spelerX3 - (snelheid - 2);
      spelerY3 = 100;
 
-  
+   spelerX4 = spelerX4 - (snelheid - 2);
+     spelerY4 = 100;
+
   // kogel
 
 }
@@ -113,7 +122,17 @@ var beweegAlles = function() {
  */
 var verwerkBotsing = function() {
   // botsing speler tegen vijand
-  if (spelerX - spelerX2 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 50 && spelerY - spelerY2 > -50) {
+  if (spelerX - spelerX2 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
+    console.log("botsing");
+    health = health - 200;
+  }
+
+  if (spelerX - spelerX3 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
+    console.log("botsing");
+    health = health - 200;
+  }
+
+  if (spelerX - spelerX4 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
     console.log("botsing");
     health = health - 200;
   }
@@ -145,15 +164,26 @@ var tekenAlles = function() {
   // vijand2
   if (speler3Richting === 45 || speler3Richting === 135) {
     fill("red");
-    rect(spelerX3 - 50, spelerY3 - 25, 150, 150);
+    rect(spelerX3 - 100, spelerY3 - 25, 100, 50);
   }
-  if (speler3Richting === 45 || speler3Richting === 90) {
+  if (speler3Richting === 0 || speler3Richting === 90) {
     fill("red");
-    rect(spelerX3 - 25, spelerY3 - 50, 150, 150);
+    rect(spelerX3 - 25, spelerY3 - 50, 50, 100);
   }
   fill("white");
   ellipse(spelerX3, spelerY3, 10, 10);
 
+// vijand3
+  if (speler4Richting === 45 || speler4Richting === 135) {
+    fill("red");
+    rect(spelerX4 - 100, spelerY4 - 25, 100, 50);
+  }
+  if (speler4Richting === 0 || speler4Richting === 90) {
+    fill("red");
+    rect(spelerX4 - 25, spelerY4 - 50, 50, 100);
+  }
+  fill("white");
+  ellipse(spelerX4, spelerY4, 10, 10);
 
   // kogel
 
