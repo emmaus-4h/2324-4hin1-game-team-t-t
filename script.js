@@ -27,10 +27,13 @@ var spelStatus = SPELEN;
 
 var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+var speler3Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
 var spelerX = 0; // x-positie van speler1
 var spelerY = 0; // y-positie van speler1
 var spelerX2 = 0; // x-positie van speler2
 var spelerY2 = 0; // y-positie van speler2
+var spelerX3 = 0; // x-positie van speler3
+var spelerY3 = 0; // y-positie van speler3
 var health = 0;  // health van speler
 var snelheid = 0;  // snelheid van speler
 
@@ -46,12 +49,15 @@ function reset() {
 
   spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
   speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
+  speler3Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
   spelerX = 600; // x-positie van speler1
   spelerY = 600; // y-positie van speler1
   spelerX2 = 1220; // x-positie van speler2
-  spelerY2 = 600; // y-positie van speler2
-  health = 200;  // health van speler
-  snelheid = 4;  // snelheid van speler
+  spelerY2 = 200; // y-positie van speler2
+  spelerX3 = 1200; // x-positie van speler3
+  spelerY3 = 700; // y-positie van speler3
+  health = 200; // health van speler
+  snelheid = 4; // snelheid van speler
 }
 /**
  * Updatet globale variabelen met posities van speler, vijanden en kogels
@@ -93,7 +99,8 @@ var beweegAlles = function() {
     spelerX2 = spelerX2 - (snelheid - 2);
    spelerY2 = 100;
     
-    
+    spelerX3 = spelerX3 - (snelheid - 2);
+     spelerY3 = 100;
 
   
   // kogel
@@ -134,6 +141,20 @@ var tekenAlles = function() {
   }
   fill("white");
   ellipse(spelerX2, spelerY2, 10, 10);
+
+  // vijand2
+  if (speler3Richting === 45 || speler3Richting === 135) {
+    fill("red");
+    rect(spelerX3 - 50, spelerY3 - 25, 150, 150);
+  }
+  if (speler3Richting === 45 || speler3Richting === 90) {
+    fill("red");
+    rect(spelerX3 - 25, spelerY3 - 50, 150, 150);
+  }
+  fill("white");
+  ellipse(spelerX3, spelerY3, 10, 10);
+
+
   // kogel
 
   // speler
