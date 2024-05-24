@@ -57,12 +57,12 @@ function reset() {
   speler4Richting = 0; //  0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
   spelerX = 600; // x-positie van speler1
   spelerY = 600; // y-positie van speler1
-  spelerX2 = 1220; // x-positie van speler2
+  spelerX2 = 1300; // x-positie van speler2
   spelerY2 = 200; // y-positie van speler2
   spelerX3 = 1800; // x-positie van speler3
   spelerY3 = 1000; // y-positie van speler3
   spelerX4 = 2400; // x-positie van speler4
-  spelerY4 = 1800; // y-positie van speler4
+  spelerY4 = 150; // y-positie van speler4
   health = 200; // health van speler
   snelheid = 4; // snelheid van speler
 }
@@ -91,6 +91,7 @@ var beweegAlles = function() {
   if (keyIsDown(32)) {
     spelerSpringt = true;
     springSnelheid = springSnelheidStart;
+    spelerRichting = 90;
   }
   if (spelerSpringt === true) {
 
@@ -104,14 +105,26 @@ var beweegAlles = function() {
   // vijand
 
     spelerX2 = spelerX2 - (snelheid - 2);
-   spelerY2 = 100;
+   
     
     spelerX3 = spelerX3 - (snelheid - 2);
-     spelerY3 = 100;
+     
 
    spelerX4 = spelerX4 - (snelheid - 2);
-     spelerY4 = 100;
 
+
+    if (spelerX2 < 0) {
+      spelerX2 = 1500; // x-positie van speler2
+      spelerY2 = 200; // y-positie van speler2
+    }
+    if (spelerX3 < 0) {
+      spelerX3 = 1500; // x-positie van speler3
+      spelerY3 = 200; // y-positie van speler3
+    }
+  if (spelerX4 < 0) {  
+    spelerX4 = 1500; // x-positie van speler4
+    spelerY4 = 200; // y-positie van speler4
+  }
   // kogel
 
 }
@@ -122,17 +135,17 @@ var beweegAlles = function() {
  */
 var verwerkBotsing = function() {
   // botsing speler tegen vijand
-  if (spelerX - spelerX2 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
+  if (spelerX - spelerX2 < 25 && spelerX - spelerX2 > -25 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
     console.log("botsing");
     health = health - 200;
   }
 
-  if (spelerX - spelerX3 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
+  if (spelerX - spelerX3 < 25 && spelerX - spelerX2 > -25 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
     console.log("botsing");
     health = health - 200;
   }
 
-  if (spelerX - spelerX4 < 50 && spelerX - spelerX2 > -50 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
+  if (spelerX - spelerX4 < 25 && spelerX - spelerX2 > -25 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
     console.log("botsing");
     health = health - 200;
   }
@@ -181,6 +194,7 @@ var tekenAlles = function() {
   if (speler4Richting === 0 || speler4Richting === 90) {
     fill("red");
     rect(spelerX4 - 25, spelerY4 - 50, 50, 100);
+    
   }
   fill("white");
   ellipse(spelerX4, spelerY4, 10, 10);
@@ -270,10 +284,10 @@ function draw() {
     fill("black");
     text("RESET", 825, 420);
     // teken pauze scherm
-    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 250 && mouseX < 650) {
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 250 && mouseX < 650 || keyIsDown(LEFT_ARROW)) {
       spelStatus = SPELEN;
     }
-    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 700 && mouseX < 1100) {
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 700 && mouseX < 1100 || keyIsDown(RIGHT_ARROW)) {
       spelStatus = SPELEN;
       reset();
     }
@@ -284,7 +298,7 @@ function draw() {
     textSize(50);
     fill("white");
     text("Welkom bij de game,", 280, 150);
-    text("Druk op de knop om verder te gaan!", 280, 200);
+    text("Druk op de knop of op 'C' om verder te gaan!", 280, 200);
     fill("red");
     rect(450, 300, 400, 200);
     fill("black");
