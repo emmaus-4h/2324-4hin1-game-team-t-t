@@ -23,6 +23,7 @@ const KEY_w = 87;
 const KEY_a = 65;
 const KEY_s = 83;
 const KEY_d = 68;
+const KEY_c = 67;
 var spelStatus = SPELEN;
 
 var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
@@ -140,12 +141,12 @@ var verwerkBotsing = function() {
     health = health - 200;
   }
 
-  if (spelerX - spelerX3 < 25 && spelerX - spelerX2 > -25 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
+  if (spelerX - spelerX3 < 25 && spelerX - spelerX3 > -25 && spelerY - spelerY3 < 100 && spelerY - spelerY3 > -100) {
     console.log("botsing");
     health = health - 200;
   }
 
-  if (spelerX - spelerX4 < 25 && spelerX - spelerX2 > -25 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
+  if (spelerX - spelerX4 < 25 && spelerX - spelerX4 > -25 && spelerY - spelerY4 < 100 && spelerY - spelerY4 > -100) {  
     console.log("botsing");
     health = health - 200;
   }
@@ -304,7 +305,7 @@ function draw() {
     fill("black");
     text("PLAY", 575, 420);
     // teken uitleg scherm
-    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850) {
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850 && keyIsDown(KEY_c)) {
       spelStatus = SPELEN;
       reset();
     }
