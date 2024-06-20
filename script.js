@@ -24,206 +24,134 @@ const KEY_a = 65;
 const KEY_s = 83;
 const KEY_d = 68;
 const KEY_c = 67;
-var spelStatus = SPELEN;
+var spelStatus = UITLEG;
 
+// Player variables
+var spelerX = 0; 
+var spelerY = 0; 
 var spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-var speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-var speler3Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-var speler4Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-var spelerX = 0; // x-positie van speler1
-var spelerX = 0; // x-positie van speler1
-var spelerY = 0; // y-positie van speler1
-var spelerX2 = 0; // x-positie van speler2
-var spelerY2 = 0; // y-positie van speler2
-var spelerX3 = 0; // x-positie van speler3
-var spelerY3 = 0; // y-positie van speler3
-var spelerX4 = 0; // x-positie van speler4
-var spelerY4 = 0; // y-positie van speler4
-var health = 0;  // health van speler
-var snelheid = 0;  // snelheid van speler
-
 var spelerSpringt = false; // of speler aan het springen is
 var springSnelheid = 2; // hoe snel speler beweegt tijdens springen
 var springSnelheidStart = 4; // snelheid bij starten van springen
 var zwaartekracht = 0.2; // snelheid van de zwaartekracht
 
+// Enemy variables
+var vijanden = []; // Array to store enemy data
+var vijandSnelheid = 4; 
+var YminUp = 100; //  minimum y-positie van vijanden
+var YmaxUp = 200; //  maximum y-positie van vijanden
+var YminDown = 450; //  minimum y-positie van vijanden
+var YmaxDown = 600; //  maximum y-positie van vijanden
+
+// Game variables
+var health = 0;  // health van speler
+var points = 0; // punten van speler
+var time = 0; // tijd van speler
+var highscore = 0; // highscore van speler
+var snelheid = 0;  // snelheid van speler
+
+//photo's
+var backgroundImage;
+
+
 /* ********************************************* */
 /* functies die je gebruikt in je game           */
 /* ********************************************* */
 function reset() {
+  spelerX = 600;
+  spelerY = 600;
+  spelerRichting = 0;
+  spelerSpringt = false;
+  health = 200;
+  snelheid = 4;
+  points = 0;
 
-  spelerRichting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-  speler2Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-  speler3Richting = 0; // 0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-  speler4Richting = 0; //  0 is omhoog, 45 is rechts, 90 is omlaag, 135 is links
-  spelerX = 600; // x-positie van speler1
-  spelerY = 600; // y-positie van speler1
-  spelerX2 = 1300; // x-positie van speler2
-  spelerY2 = 200; // y-positie van speler2
-  spelerX3 = 1800; // x-positie van speler3
-  spelerY3 = 1000; // y-positie van speler3
-  spelerX4 = 2400; // x-positie van speler4
-  spelerY4 = 150; // y-positie van speler4
-  health = 200; // health van speler
-  snelheid = 4; // snelheid van speler
+  // Reset enemies
+  vijanden = [
+    { x: 1300, y: 200, richting: 0 }, 
+    { x: 1800, y: 1000, richting: 0 }, 
+    { x: 2400, y: 150, richting: 0 },
+    { x: 2800, y: 400, richting: 0 }, 
+    { x: 3200, y: 500, richting: 0 }, 
+    { x: 3600, y: 350, richting: 0 } 
+  ];
 }
+
 /**
  * Updatet globale variabelen met posities van speler, vijanden en kogels
  */
 var beweegAlles = function() {
-  // speler
-  if (keyIsDown(LEFT_ARROW)) {
-    spelerX = spelerX - snelheid;
-    spelerRichting = 135;
-  }
-  if (keyIsDown(RIGHT_ARROW)) {
-    spelerX = spelerX + snelheid;
-    spelerRichting = 45;
-  }
-  if (keyIsDown(UP_ARROW)) {
-    spelerY = spelerY - snelheid;
-    spelerRichting = 0;
-  }
-  if (keyIsDown(DOWN_ARROW)) {
-    spelerY = spelerY + snelheid;
-    spelerRichting = 90;
-  }
-
+  // Speler
   if (keyIsDown(32)) {
     spelerSpringt = true;
     springSnelheid = springSnelheidStart;
     spelerRichting = 90;
   }
   if (spelerSpringt === true) {
-
     spelerY = spelerY - springSnelheid;
     springSnelheid = springSnelheid - zwaartekracht;
+    // Check if player is outside the canvas
+    if (spelerY < 100) {
+      spelerY = 100; // Reset to the top
+    }
+    if (spelerY > height) { 
+      spelerY = height; // Reset to the bottom
+    }
     if (spelerY > 600) {
       spelerSpringt = false;
-
     }
   }
-  // vijand
 
-    spelerX2 = spelerX2 - (snelheid - 2);
-   
-    
-    spelerX3 = spelerX3 - (snelheid - 2);
-     
+  // Vijanden
+  for (let i = 0; i < vijanden.length; i++) {
+    let vijand = vijanden[i];
+    vijand.x = vijand.x - (vijandSnelheid - 1); 
 
-   spelerX4 = spelerX4 - (snelheid - 2);
-
-
-    if (spelerX2 < 0) {
-      spelerX2 = 1500; // x-positie van speler2
-      spelerY2 = 200; // y-positie van speler2
+    if (vijand.x < 0) {
+      vijand.x = 1500;
+      if (vijand.y < 300) {
+        vijand.y = getRandomNumber(YminUp, YmaxUp);
+      } else {
+        vijand.y = getRandomNumber(YminDown, YmaxDown);
+      }
     }
-    if (spelerX3 < 0) {
-      spelerX3 = 1500; // x-positie van speler3
-      spelerY3 = 200; // y-positie van speler3
-    }
-  if (spelerX4 < 0) {  
-    spelerX4 = 1500; // x-positie van speler4
-    spelerY4 = 200; // y-positie van speler4
   }
-  // kogel
+};
 
-}
 /**
  * Checkt botsingen
  * Verwijdert neergeschoten dingen
  *d Updatet globale variabelen punten en health
  */
 var verwerkBotsing = function() {
-  // botsing speler tegen vijand
-  if (spelerX - spelerX2 < 25 && spelerX - spelerX2 > -25 && spelerY - spelerY2 < 100 && spelerY - spelerY2 > -100) {
-    console.log("botsing");
-    health = health - 200;
+  // Botsing speler tegen vijand
+  for (let i = 0; i < vijanden.length; i++) {
+    let vijand = vijanden[i];
+    if (spelerX - vijand.x < 25 && spelerX - vijand.x > -25 && 
+        spelerY - vijand.y < 100 && spelerY - vijand.y > -100) {
+      console.log("botsing");
+      health = health - 200;
+    }
   }
 
-  if (spelerX - spelerX3 < 25 && spelerX - spelerX3 > -25 && spelerY - spelerY3 < 100 && spelerY - spelerY3 > -100) {
-    console.log("botsing");
-    health = health - 200;
+  // Update punten en health
+  if (spelStatus === SPELEN) {
+    points = points + 0.02;
+    time = Math.round(points); //gevraagd aan een AI chat bot hoe ik decimale getallen naar een hele getal kan veranderen
   }
-
-  if (spelerX - spelerX4 < 25 && spelerX - spelerX4 > -25 && spelerY - spelerY4 < 100 && spelerY - spelerY4 > -100) {  
-    console.log("botsing");
-    health = health - 200;
-  }
-  // botsing kogel tegen vijandw
-
-  // update punten en health
-
-};
-
-/**
- * Tekent spelscherm
- */
-var tekenAlles = function() {
-  // achtergrond
-  fill("black");
-  rect(0, 0, 1280, 720);
-  // vijand
-  if (speler2Richting === 45 || speler2Richting === 135) {
-    fill("red");
-    rect(spelerX2 - 50, spelerY2 - 25, 100, 50);
-  }
-  if (speler2Richting === 0 || speler2Richting === 90) {
-    fill("red");
-    rect(spelerX2 - 25, spelerY2 - 50, 50, 100);
-  }
-  fill("white");
-  ellipse(spelerX2, spelerY2, 10, 10);
-
-  // vijand2
-  if (speler3Richting === 45 || speler3Richting === 135) {
-    fill("red");
-    rect(spelerX3 - 100, spelerY3 - 25, 100, 50);
-  }
-  if (speler3Richting === 0 || speler3Richting === 90) {
-    fill("red");
-    rect(spelerX3 - 25, spelerY3 - 50, 50, 100);
-  }
-  fill("white");
-  ellipse(spelerX3, spelerY3, 10, 10);
-
-// vijand3
-  if (speler4Richting === 45 || speler4Richting === 135) {
-    fill("red");
-    rect(spelerX4 - 100, spelerY4 - 25, 100, 50);
-  }
-  if (speler4Richting === 0 || speler4Richting === 90) {
-    fill("red");
-    rect(spelerX4 - 25, spelerY4 - 50, 50, 100);
-    
-  }
-  fill("white");
-  ellipse(spelerX4, spelerY4, 10, 10);
-
-  // kogel
-
-  // speler
-  if (spelerRichting === 45 || spelerRichting === 135) {
-    fill("white");
-    rect(spelerX - 50, spelerY - 25, 100, 50);
-  }
-  if (spelerRichting === 0 || spelerRichting === 90) {
-    fill("white");
-    rect(spelerX - 25, spelerY - 50, 50, 100);
-  }
-
-  fill("red");
-  ellipse(spelerX, spelerY, 10, 10);
-
-
-  // punten en health
-
 };
 
 /* ********************************************* */
 /* setup() en draw() functies / hoofdprogramma   */
 /* ********************************************* */
+function getRandomNumber(min, max) {
+  return Math.round(Math.random() * (max - min + 1)) + min; //gevraagd aan een AI chat bot hoe ik een random getal kan genereren;  This scales the random decimal number to fit within the range.
+}
 
+
+function preload() {
+  backgroundImage = loadImage("afbeeldingen/achtergrond_game.jpeg"); 
+}
 /**
  * setup
  * de code in deze functie wordt één keer uitgevoerd door
@@ -232,11 +160,56 @@ var tekenAlles = function() {
 function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
-
   // Kleur de achtergrond zwart, zodat je het kunt zien
   background('red');
   reset();
 }
+
+/**
+ * Tekent spelscherm
+ */
+var tekenAlles = function() {
+  // Achtergrond
+
+  // Vijanden
+  for (let i = 0; i < vijanden.length; i++) {
+    let vijand = vijanden[i];
+    if (vijand.richting === 45 || vijand.richting === 135) {
+      fill("red");
+      rect(vijand.x - 50, vijand.y - 25, 100, 50);
+    } else if (vijand.richting === 0 || vijand.richting === 90) {
+      fill("red");
+      rect(vijand.x - 25, vijand.y - 50, 50, 100);
+    }
+    fill("white");
+    ellipse(vijand.x, vijand.y, 10, 10);
+  }
+
+  // Speler
+  if (spelerRichting === 45 || spelerRichting === 135) {
+    fill("white");
+    rect(spelerX - 50, spelerY - 25, 100, 50);
+  } else if (spelerRichting === 0 || spelerRichting === 90) {
+    fill("white");
+    rect(spelerX - 25, spelerY - 50, 50, 100);
+  }
+  fill("red");
+  ellipse(spelerX, spelerY, 10, 10);
+
+  // Punten en health
+  if (spelStatus === SPELEN) {
+    
+    fill("white");
+    textSize(50);
+    text("Score: " + time, 10, 50);
+    text("Highscore: " + highscore, 950, 50);
+  }
+
+  if (time > highscore) {
+    highscore = time;
+  }
+};
+
 
 /**
  * draw
@@ -244,8 +217,9 @@ function setup() {
  * uitgevoerd door de p5 library, nadat de setup functie klaar is
  */
 function draw() {
-  
+
   if (spelStatus === SPELEN) {
+    background(backgroundImage); // Set the background image only when playing
     beweegAlles();
     verwerkBotsing();
     tekenAlles();
@@ -261,6 +235,8 @@ function draw() {
     console.log("GAME OVER");
     textSize(50);
     fill("white");
+    text("Score: " + time, 10, 50);
+    text("Highscore: " + highscore, 950, 50);
     text("GAME OVER", 280, 150);
     text("Druk op enter om naar startscherm te gaan", 280, 200);
     // teken game-over scherm
@@ -274,22 +250,28 @@ function draw() {
     console.log("PAUZE");
     textSize(50);
     fill("white");
+    text("Score: " + time, 10, 50);
+    text("Highscore: " + highscore, 950, 50);
     text("Dit is het pauze menu.", 280, 150);
-    text("Kies wat u wilt doen;", 280, 200);
+    text("Kies wat u wilt doen", 280, 200);
+    text("Klik op de knop of gebruik de bij behoorende pijltjestoets.", 25, 250);
     fill("red");
     rect(250, 300, 400, 200);
     fill("black");
-    text("PLAY", 375, 420);
+    text("PLAY", 375, 400);
+    text("Linker <-", 375, 450);
     fill("red");
     rect(700, 300, 400, 200);
     fill("black");
-    text("RESET", 825, 420);
+    text("RESET", 825, 400);
+    text("-> Rechter", 765, 450);
     // teken pauze scherm
     if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 250 && mouseX < 650 || keyIsDown(LEFT_ARROW)) {
       spelStatus = SPELEN;
     }
     if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 700 && mouseX < 1100 || keyIsDown(RIGHT_ARROW)) {
       spelStatus = SPELEN;
+      
       reset();
     }
   }
@@ -299,16 +281,19 @@ function draw() {
     textSize(50);
     fill("white");
     text("Welkom bij de game,", 280, 150);
+    text("Highscore: " + highscore, 950, 50);
     text("Druk op de knop of op 'C' om verder te gaan!", 280, 200);
     fill("red");
     rect(450, 300, 400, 200);
     fill("black");
     text("PLAY", 575, 420);
+   
     // teken uitleg scherm
-    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850 && keyIsDown(KEY_c)) {
+    if (mouseIsPressed && mouseY > 300 && mouseY < 500 && mouseX > 450 && mouseX < 850 || keyIsDown(KEY_c)) {
       spelStatus = SPELEN;
+       
       reset();
     }
   }
-  
+
 }
